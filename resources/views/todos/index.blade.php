@@ -6,7 +6,7 @@
       @csrf
       <div class="mb-3">
         <label for="titleInput" class="form-label">Tarea</label>
-        <input type="text" name="title" class="form-control" id="titleInput">
+        <input type="text" name="title" class="form-control" id="titleInput" autofocus>
       </div>
       <!-- <div class="mb-3">
             <label for="descInput" class="form-label">Descripción</label>
