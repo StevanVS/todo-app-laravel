@@ -27,6 +27,9 @@
       @if (session('success'))
       <h6 class="alert alert-success mt-3 mb-0">{{ session('success') }}</h6>
       @endif
+      @if (session('error'))
+      <h6 class="alert alert-danger mt-3 mb-0">{{ session('error') }}</h6>
+      @endif
     </form>
   </div>
   <div class="col-md-8">

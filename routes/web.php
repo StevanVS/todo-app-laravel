@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\TodoController;
+use App\Http\Controllers\WEB\TodoController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -20,6 +20,8 @@ Route::get('/', function () {
 });
 
 Route::get('/tareas', [TodoController::class, 'index'])->name('todos');
+Route::get('/tareas/create', [TodoController::class, 'create']);
+Route::get('/tareas/{id}', [TodoController::class, 'show']);
 
 Route::post('/tareas', [TodoController::class, 'store'])->name('todos');
 
@@ -30,4 +32,6 @@ Route::patch('/tareas/{id}', [TodoController::class, 'update'])->name('todo-upda
 Route::delete('/tareas/{id}', [TodoController::class, 'destroy'])->name('todo-delete');
 
 
-// Route::resource('t', TodoController::class);
+// Route::fallback(function () {
+//     return to_route('todos');
+// });
