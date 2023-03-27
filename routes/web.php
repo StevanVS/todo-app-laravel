@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\WEB\CategoryController;
 use App\Http\Controllers\WEB\TodoController;
 use Illuminate\Support\Facades\Route;
 
@@ -31,6 +32,7 @@ Route::patch('/tareas/{id}', [TodoController::class, 'update'])->name('todo-upda
 
 Route::delete('/tareas/{id}', [TodoController::class, 'destroy'])->name('todo-delete');
 
+Route::resource('/categorias', CategoryController::class)->names('categories');
 
 // Route::fallback(function () {
 //     return to_route('todos');

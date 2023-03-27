@@ -21,14 +21,25 @@
       <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
           <a class="nav-link" href="{{ route('todos') }}">Todos</a>
-          {{-- <a class="nav-link" href="#">Categories</a> --}}
+          <a class="nav-link" href="{{ route('categories.index') }}">Categorias</a>
         </div>
       </div>
     </div>
   </nav>
 
   <div class="container">
-    @yield('content')
+    <div class="row justify-content-center">
+      <div class="col-md-4">
+        <div class="border rounded p-3 shadow-sm">
+          @yield('form')
+        </div>
+      </div>
+      <div class="col-md-8">
+        <ul class="list-group mt-3 mt-md-0 shadow-sm">
+          @yield('list')
+        </ul>
+      </div>
+    </div>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
