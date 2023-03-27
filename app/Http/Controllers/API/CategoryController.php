@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\WEB;
+namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
@@ -14,20 +14,7 @@ class CategoryController extends Controller
     public function index()
     {
         $categories = Category::where('status', 1)->get();
-        $category = null;
-
-        return view('categories.index', [
-            'category' => $category,
-            'categories' => $categories,
-        ]);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        return to_route('categories.index');
+        return response()->json($categories, 200);
     }
 
     /**
@@ -46,7 +33,7 @@ class CategoryController extends Controller
             'status' => 1,
         ]);
 
-        return to_route('categories.index')->with('success', 'Categoria creada con exito');
+        return response()->json(['message' => 'Categoria creada con exito.'], 200);
     }
 
     /**
@@ -54,23 +41,13 @@ class CategoryController extends Controller
      */
     public function show(string $id)
     {
-        return to_route('categories.index');
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        $categories = Category::where('status', 1)->get();
         $category = Category::find($id);
+
         if (is_null($category)) {
-            return to_route('categories.index')->with('error', 'Categoria no encontrada');
+            return response()->json(['message' => 'Categoria no encontrada.'], 404);
         }
-        return view('categories.edit', [
-            'category' => $category,
-            'categories' => $categories,
-        ]);
+
+        return response()->json($category, 200);
     }
 
     /**
@@ -80,7 +57,7 @@ class CategoryController extends Controller
     {
         $category = Category::find($id);
         if (is_null($category)) {
-            return to_route('categories.index')->with('error', 'Categoria no encontrada');
+            return response()->json(['message' => 'Categoria no encontrada.'], 404);
         }
 
         $validateData = $request->validate([
@@ -92,7 +69,7 @@ class CategoryController extends Controller
         $category->color = $validateData['color'];
         $category->save();
 
-        return to_route('categories.index')->with('success', 'Categoria editada con exito');
+        return response()->json(['message' => 'Categoria actualizada con exito.'], 200);
     }
 
     /**
@@ -102,12 +79,12 @@ class CategoryController extends Controller
     {
         $category = Category::find($id);
         if (is_null($category)) {
-            return to_route('categories.index')->with('error', 'Categoria no encontrada');
+            return response()->json(['message' => 'Categoria no encontrada.'], 404);
         }
 
         $category->status = 0;
         $category->save();
 
-        return to_route('categories.index')->with('success', 'Categoria eliminada con exito');
+        return response()->json(['message' => 'Categoria eliminada con exito.'], 200);
     }
 }

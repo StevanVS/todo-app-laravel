@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\API\CategoryController;
 use App\Http\Controllers\API\TodoController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -19,4 +20,7 @@ use Illuminate\Support\Facades\Route;
 //     return $request->user();
 // });
 
-Route::apiResource('/todos', TodoController::class);
+Route::apiResources([
+  'todos' => TodoController::class,
+  'categories' => CategoryController::class
+]);
