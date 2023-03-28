@@ -11,6 +11,7 @@ class Todo extends Model
     public $timestamps = false;
     public $fillable = [
         'title',
-        'date'
+        'date',
+        'category_id',
     ];
 }

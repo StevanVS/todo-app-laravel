@@ -3,18 +3,41 @@
 namespace App\Http\Controllers\WEB;
 
 use App\Http\Controllers\Controller;
+use App\Models\Category;
 use App\Models\Todo;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class TodoController extends Controller
 {
+    private function getTodos()
+    {
+        return DB::table('todos')
+            ->leftJoin('categories', 'categories.id', '=', 'todos.category_id')
+            ->select([
+                'todos.*',
+                'categories.name as category',
+                'categories.color',
+            ])
+            ->where('categories.status', 1)
+            ->orWhereNull('categories.status')
+            ->get();
+    }
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $todos = Todo::all();
-        return view('todos.index', ['todos' => $todos]);
+        // $todos = Todo::all();
+        $todos = $this->getTodos();
+        $todo = null;
+        $categories = Category::where('status', 1)->get();
+        return view('todos.index', [
+            'todos' => $todos,
+            'todo' => $todo,
+            'categories' => $categories,
+        ])->with('page', 'todos');
     }
 
     /**
@@ -31,13 +54,15 @@ class TodoController extends Controller
     public function store(Request $request)
     {
         $validateData = $request->validate([
-            'title' => 'required|min:3',
-            'date' => 'nullable|date'
+            'title'         => 'required|min:3',
+            'date'          => 'nullable|date',
+            'category_id'   => 'nullable|integer'
         ]);
 
         $todo = new Todo;
         $todo->title = $validateData['title'];
-        $todo->date = $request['date'];
+        $todo->date = $validateData['date'];
+        $todo->category_id = $validateData['category_id'];
 
         $todo->save();
 
@@ -58,14 +83,19 @@ class TodoController extends Controller
      */
     public function edit(string $id)
     {
-        $todos = Todo::all();
+        $todos = $this->getTodos();
         $todo = Todo::find($id);
+        $categories = Category::where('status', 1)->get();
 
         if (is_null($todo)) {
             return to_route('todos')->with('error', 'Tarea no encontrada');
         }
 
-        return view('todos.edit', ['todo' => $todo, 'todos' => $todos]);
+        return view('todos.edit', [
+            'todo'          => $todo,
+            'todos'         => $todos,
+            'categories'    => $categories,
+        ])->with('page', 'todos');
     }
 
     /**
@@ -80,12 +110,14 @@ class TodoController extends Controller
         }
 
         $validateData = $request->validate([
-            'title' => 'required|min:3',
-            'date' => 'nullable|date'
+            'title'         => 'required|min:3',
+            'date'          => 'nullable|date',
+            'category_id'   => 'nullable|integer'
         ]);
 
         $todo->title = $validateData['title'];
         $todo->date = $request['date'];
+        $todo->category_id = $request['category_id'];
         $todo->save();
 
         return to_route('todos')->with('success', 'Tarea Actualizada');

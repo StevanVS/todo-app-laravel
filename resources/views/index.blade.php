@@ -20,8 +20,9 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
-          <a class="nav-link" href="{{ route('todos') }}">Todos</a>
-          <a class="nav-link" href="{{ route('categories.index') }}">Categorias</a>
+          <a class="nav-link @if($page == 'todos') active @endif" href="{{ route('todos') }}">Tareas</a>
+          <a class="nav-link @if($page == 'categories') active @endif"
+            href="{{ route('categories.index') }}">Categorias</a>
         </div>
       </div>
     </div>

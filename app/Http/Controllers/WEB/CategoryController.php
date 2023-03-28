@@ -19,7 +19,7 @@ class CategoryController extends Controller
         return view('categories.index', [
             'category' => $category,
             'categories' => $categories,
-        ]);
+        ])->with('page', 'categories');
     }
 
     /**
@@ -70,7 +70,7 @@ class CategoryController extends Controller
         return view('categories.edit', [
             'category' => $category,
             'categories' => $categories,
-        ]);
+        ])->with('page', 'categories');
     }
 
     /**
