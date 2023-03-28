@@ -29,7 +29,6 @@ class TodoController extends Controller
      */
     public function index()
     {
-        // $todos = Todo::all();
         $todos = $this->getTodos();
         $todo = null;
         $categories = Category::where('status', 1)->get();
